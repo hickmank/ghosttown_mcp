@@ -1,0 +1,50 @@
+[build-system]
+requires = ["flit_core >=3.9.0,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "ghosttown_mcp"
+version = "0.1.0"
+module = "ghosttown_mcp"
+description = "A minimal MCP server for educational purposes."
+authors = [
+  { name="Kyle Hickmann", email="hickmank@gmail.com" },
+]
+dependencies = [
+  "fastapi",
+  "uvicorn[standard]",
+  "jsonrpcserver[fastapi]",
+  "mcp-client",
+  "requests",
+  "pytest",
+  "ruff",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+classifiers = ["Private :: Do Not Upload",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+]
+
+[tool.ruff]
+line-length = 89
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+docstring-code-line-length = 89
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "D",
+    "UP",
+    "W",
+    "ANN"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
