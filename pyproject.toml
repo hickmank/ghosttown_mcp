@@ -5,7 +5,6 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "ghosttown_mcp"
 version = "0.1.0"
-module = "ghosttown_mcp"
 description = "A minimal MCP server for educational purposes."
 authors = [
   { name="Kyle Hickmann", email="hickmank@gmail.com" },
@@ -14,7 +13,7 @@ dependencies = [
   "fastapi",
   "uvicorn[standard]",
   "jsonrpcserver[fastapi]",
-  "mcp-client",
+  "mcp",
   "requests",
   "pytest",
   "ruff",
