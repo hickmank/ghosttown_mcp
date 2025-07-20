@@ -5,6 +5,7 @@ from fastapi.responses import Response
 from jsonrpcserver import Success
 from jsonrpcserver import method, dispatch
 from sse_starlette.sse import EventSourceResponse
+from typing import AsyncIterator
 
 from ghosttown_mcp.tools.addition import add
 
@@ -67,9 +68,33 @@ def list_tools() -> Success:
     Returns:
         Success: JSON-RPC success response containing a list of available tools.
     """
-    return Success([
-        {"name": "add_tool", "description": "Add two numbers"}
-    ])
+    # Each tool must include an inputSchema and outputSchema (per MCP SDK expectations).
+    return Success({
+        "tools": [
+            {
+                "name": "add_tool",
+                "description": "Add two floating-point numbers",
+                # Minimal JSON‑Schema for parameters (you can expand this if you like)
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "a": {"type": "number"},
+                        "b": {"type": "number"}
+                    },
+                    "required": ["a", "b"]
+                },
+                # Now declare that structuredContent is an object with a "value" number
+                "outputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "value": {"type": "number"}
+                    },
+                    "required": ["value"]
+                }
+            }
+        ]
+    })
+
 
 
 # 4) Call a tool by name
@@ -114,12 +139,12 @@ async def rpc_endpoint(request: Request) -> Response:
         response (Response): The JSON-RPC response object.
     """
     request_text = await request.body()
-    rpc_response: str = dispatch(request_text.decode())
+    rpc_response = dispatch(request_text.decode())
 
     accept = request.headers.get("accept", "")
     # SDK’s streamablehttp_client sends Accept: text/event-stream
     if "text/event-stream" in accept:
-        async def event_gen():
+        async def event_gen() -> AsyncIterator[str]:
             """Yield a single SSE event carrying our JSON-RPC reply."""
             yield rpc_response
         return EventSourceResponse(event_gen())
