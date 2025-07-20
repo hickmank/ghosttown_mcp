@@ -1,7 +1,7 @@
 """First simple MCP server."""
 
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import Response
 from jsonrpcserver import Success
 from jsonrpcserver import method, dispatch
 from ghosttown_mcp.tools.addition import add
@@ -26,17 +26,17 @@ def add_tool(a: float, b: float) -> float:
 
 
 @app.post("/jsonrpc")
-async def rpc_endpoint(request: Request) -> JSONResponse:
+async def rpc_endpoint(request: Request) -> Response:
     """Handle JSON-RPC requests sent to the /jsonrpc endpoint.
 
     Args:
         request (Request): The incoming HTTP request containing the JSON-RPC payload.
 
     Returns:
-        response (JSONResponse): The JSON-RPC response object.
+        response (Response): The JSON-RPC response object.
     """
     request_text = await request.body()
-    response = dispatch(request_text.decode())
+    rpc_response: str = dispatch(request_text.decode())
 
-    return JSONResponse(response, media_type="application/json")
+    return Response(content=rpc_response, media_type="application/json")
 
