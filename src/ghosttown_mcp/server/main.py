@@ -99,7 +99,7 @@ def call_tool(name: str, arguments: dict) -> Success:
         # a list of text blocks for human‑readable fallback
         "content": [{"type": "text", "text": str(result)}],
         # structuredContent for programs to consume directly
-        "structuredContent": result
+        "structuredContent": {"value": result}
     })
 
 
@@ -120,7 +120,7 @@ async def rpc_endpoint(request: Request) -> Response:
     # SDK’s streamablehttp_client sends Accept: text/event-stream
     if "text/event-stream" in accept:
         async def event_gen():
-            # yield a single SSE event carrying our JSON-RPC reply
+            """Yield a single SSE event carrying our JSON-RPC reply."""
             yield rpc_response
         return EventSourceResponse(event_gen())
 

@@ -31,3 +31,24 @@ ghosttown_mcp/
     └── test_add.py
 ```
 
+## 2. To install in python virtual environment
+
+```
+(mcp_venv)>> pip install flit
+(mcp_venv)>> cd <ghosttown_mcp_rootdir>
+(mcp_venv)>> flit install --symlink --deps=all
+```
+
+## 3. To build container and start MCP server locally
+
+```
+>> docker build -t ghosttown_mcp .
+>> docker run --rm -p 4000:4000 ghosttown_mcp
+```
+
+## 4. To run the example client queries
+
+```
+>> python examples/raw_client.py
+(WARNING!!!! CURRENTLY BROKEN)>> python examples/sdk_client.py
+```
