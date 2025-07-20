@@ -13,6 +13,7 @@ dependencies = [
   "fastapi",
   "uvicorn[standard]",
   "jsonrpcserver[fastapi]",
+  "sse-starlette",
   "mcp",
   "requests",
   "pytest",
