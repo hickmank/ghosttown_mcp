@@ -50,9 +50,8 @@ ghosttown_mcp/
 
 ```
 >> python examples/raw_client.py
->> python examples/mcp_sync_client.py
 >> python examples/sdk_client.py
 ```
 
-Note: The `sdk_client.py` and `mcp_sync_client.py` return some error handling messages
+Note: The `sdk_client.py` returns some error handling messages
 resulting from SSE events. They can be ignored for now.
