@@ -20,8 +20,12 @@ ghosttown_mcp/
 │           ├── __init__.py
 │       │   └── addition.py
 │       └── server/
-|           ├── __init__.py
-│           └── main.py
+│           └── jsonrpc
+|               ├── __init__.py
+│               └── server.py
+│           └── fastmcp
+|               ├── __init__.py
+│               └── server.py
 │
 ├── examples/
 │   |── sdk_client.py
