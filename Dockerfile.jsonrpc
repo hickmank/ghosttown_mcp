@@ -49,8 +49,5 @@ EXPOSE 4000
 # 10. Define the default command:
 #      Launch Uvicorn to serve the FastAPI app at host 0.0.0.0, port 4000.
 #    - The notation ["executable", "arg1", "arg2"] avoids a shell and is preferred.
-CMD ["uvicorn", 
-     "ghosttown_mcp.server.jsonrpc.server:app", 
-     "--host", "0.0.0.0", 
-     "--port", "4000"]
+CMD ["uvicorn", "ghosttown_mcp.server.jsonrpc.server:app", "--host", "0.0.0.0", "--port", "4000"]
 

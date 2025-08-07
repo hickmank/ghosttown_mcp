@@ -15,7 +15,7 @@ async def main() -> None:
     """
     # 1) Connect to your local MCP server over HTTP
     async with streamablehttp_client(
-        "http://localhost:4000/jsonrpc"
+        "http://localhost:4001/mcp/jsonrpc"
     ) as (read_stream, write_stream, _get_session_id):
         # 2) Open an MCP session
         async with ClientSession(read_stream, write_stream) as session:

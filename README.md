@@ -43,19 +43,28 @@ ghosttown_mcp/
 (mcp_venv)>> flit install --symlink --deps=all
 ```
 
-## 3. To build container and start MCP server locally
+## 3. To build container and start JSON-RPC MCP server locally
 
 ```
->> docker build -t ghosttown_mcp .
->> docker run --rm -p 4000:4000 ghosttown_mcp
+>> docker build -f Dockerfile.jsonrpc -t ghosttown_mcp_jsonrpc .
+>> docker run --rm -p 4000:4000 ghosttown_mcp_jsonrpc
 ```
 
-## 4. To run the example client queries
+## 4. To run the example JSON-RPC client query
 
 ```
 >> python examples/raw_client.py
->> python examples/sdk_client.py
 ```
 
-Note: The `sdk_client.py` returns some error handling messages
-resulting from SSE events. They can be ignored for now.
+## 5. To build the container and start FastMCP MCP server locally
+
+```
+>> docker build -f Dockerfile.fastmcp -t ghosttown_mcp_fastmcp .
+>> docker run --rm -p 4001:4001 ghosttown_mcp_fastmcp
+```
+
+## 6. To run the example MCP SDK client query
+
+```
+>> python examples/sdk_client.py
+```
