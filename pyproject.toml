@@ -28,6 +28,18 @@ classifiers = ["Private :: Do Not Upload",
     "Programming Language :: Python :: 3",
 ]
 
+[project.optional-dependencies]
+# Agent dependencies: for building/running your LangChain+Ollama agent
+agent = [
+  "langchain",
+  "ollama",
+]
+
+# UI dependencies: for wrapping in a Streamlit app
+ui = [
+  "streamlit",
+]
+
 [tool.ruff]
 line-length = 89
 indent-width = 4
