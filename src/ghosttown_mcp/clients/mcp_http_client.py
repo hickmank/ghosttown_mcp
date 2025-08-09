@@ -12,7 +12,7 @@ class MCPHttpClient:
 
         Args:
             url (str): The MCP server's JSON-RPC endpoint,
-                e.g. "http://localhost:4001/jsonrpc".
+                       e.g. "http://localhost:4000/jsonrpc".
         """
         self.url = url
 
@@ -28,7 +28,7 @@ class MCPHttpClient:
 
         Args:
             method (str): Name of the RPC method (e.g. "add_tool").
-            params (Dict[str, Any]): Parameters for the method.
+            params (dict[str, Any]): Parameters for the method.
             request_id (int, optional): JSON-RPC message ID. Defaults to 1.
 
         Returns:

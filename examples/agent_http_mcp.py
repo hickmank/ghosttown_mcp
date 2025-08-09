@@ -1,11 +1,13 @@
-"""Example of LLM agent interaction with JSON-RPC MCP server."""
+"""ReAct agent using LangGraph + Ollama that calls your JSON-RPC MCP tool."""
 
-from langchain.agents import Tool, initialize_agent, AgentType
-from langchain.llms import Ollama
+from langchain_ollama import ChatOllama
+from langchain.tools import Tool
+from langchain_core.messages import HumanMessage
+from langgraph.prebuilt import create_react_agent
 
-from examples.mcp_http_client import MCPHttpClient
+from ghosttown_mcp.clients.mcp_http_client import MCPHttpClient
 
-
+# Point to your plain JSON-RPC server
 client = MCPHttpClient("http://localhost:4000/jsonrpc")
 
 
@@ -14,7 +16,7 @@ def add_via_http(a: float, b: float) -> float:
     return client.call_tool("add_tool", {"a": a, "b": b})
 
 
-# Create agents tool from the MCP server's add_tool method
+# Wrap as a LangChain Tool (LangGraph accepts these)
 add_tool = Tool(
     name="add",
     func=add_via_http,
@@ -23,11 +25,20 @@ add_tool = Tool(
 
 
 if __name__ == "__main__":
-    llm = Ollama(model="gpt-oss")
-    agent = initialize_agent(
-        tools=[add_tool],
-        llm=llm,
-        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-        verbose=True,
-    )
-    print(agent.run("What is 123 + 456?"))
+    llm = ChatOllama(model="gpt-oss")
+
+    # Build a small ReAct agent graph with your tool
+    app = create_react_agent(llm, [add_tool])
+
+    # Invoke with a messages-style input (LangGraph standard)
+    result = app.invoke({"messages": [HumanMessage(content="What is 123 + 456?")]})
+
+    # The latest assistant message is at the end
+    print(result["messages"][-1].content)
+
+
+
+
+
+
+
