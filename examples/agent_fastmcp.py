@@ -28,8 +28,19 @@ add_tool = Tool(
 if __name__ == "__main__":
     llm = ChatOllama(model="gpt-oss")
 
+    # Set agent's policy to ensure it queries MCP server for arithmetic
+    policy = (
+        "You MUST use the provided tools from the MCP server for any arithmetic. "
+        "Do not compute sums yourself. If no relevant tool exists, "
+        "say you cannot proceed."
+    )
+
     # Build a small ReAct agent graph with your tool
-    app = create_react_agent(llm, [add_tool])
+    app = create_react_agent(
+        llm,
+        [add_tool],
+        prompt=policy,
+        )
 
     # Invoke with a messages-style input (LangGraph standard)
     result = app.invoke({"messages": [HumanMessage(content="What is 123 + 456?")]})
